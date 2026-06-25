@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package distrieats;
+
+option go_package = "distrieats/proto";
+
+// --- Estructuras Comunes ---
+
+message VectorClock {
+  map<string, int32> clocks = 1; // Mapa de Nodo -> Valor del Reloj
+}
+
+message Pedido {
+  string id = 1;
+  string estado = 2; // Recibido, Preparando, En Camino, Entregado, Cancelado
+  VectorClock vector_clock = 3;
+}
+
+// --- Servicios del Gateway y Broker ---
+
+service ClientService {
+  // Operación de Escritura (Read Your Writes)
+  rpc CrearPedido (CrearPedidoRequest) returns (CrearPedidoResponse);
+  // Operación de Lectura
+  rpc ConsultarEstado (ConsultarEstadoRequest) returns (ConsultarEstadoResponse);
+}
+
+message CrearPedidoRequest {
+  string cliente_id = 1;
+  string pedido_id = 2; // ID único para idempotencia
+}
+
+message CrearPedidoResponse {
+  bool exito = 1;
+  string mensaje = 2;
+  string datanode_asignado = 3; // Útil para debug o validación
+}
+
+message ConsultarEstadoRequest {
+  string cliente_id = 1;
+  string pedido_id = 2;
+}
+
+message ConsultarEstadoResponse {
+  bool encontrado = 1;
+  Pedido pedido = 2;
+  string datanode_consultado = 3;
+}
+
+// --- Servicios de los Datanodes ---
+
+service DatanodeService {
+  // El Broker o el Gateway envían actualizaciones a un Datanode
+  rpc UpdateOrder (UpdateOrderRequest) returns (UpdateOrderResponse);
+  
+  // El Gateway lee el estado desde un Datanode específico
+  rpc GetOrder (GetOrderRequest) returns (GetOrderResponse);
+  
+  // Sincronización entre pares (Gossip)
+  rpc GossipSync (GossipRequest) returns (GossipResponse);
+}
+
+message UpdateOrderRequest {
+  Pedido pedido = 1;
+}
+
+message UpdateOrderResponse {
+  bool exito = 1;
+  string mensaje = 2;
+}
+
+message GetOrderRequest {
+  string pedido_id = 1;
+}
+
+message GetOrderResponse {
+  bool encontrado = 1;
+  Pedido pedido = 2;
+}
+
+// Mensaje para intercambiar todo el estado local en el protocolo Gossip
+message GossipRequest {
+  string datanode_id = 1;
+  map<string, Pedido> pedidos = 2; // Estado actual de los pedidos en este nodo
+}
+
+message GossipResponse {
+  bool exito = 1;
+  map<string, Pedido> pedidos = 2; // El nodo receptor también puede enviar su estado para sincronización bidireccional si se desea
+}

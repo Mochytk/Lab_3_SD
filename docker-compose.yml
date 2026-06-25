@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # VM 1
+  broker:
+    build: .
+    container_name: distrieats-broker
+    command: ["./broker", "--port=50050", "--datanodes=datanode1:50051,datanode2:50052,datanode3:50053", "--csv=pedidos.csv"]
+    ports:
+      - "50050:50050"
+    networks:
+      - distrieats_net
+
+  # VM 2
+  gateway:
+    build: .
+    container_name: distrieats-gateway
+    command: ["./gateway", "--port=50040", "--broker=broker:50050", "--datanodes=datanode1:50051,datanode2:50052,datanode3:50053"]
+    ports:
+      - "50040:50040"
+    depends_on:
+      - broker
+    networks:
+      - distrieats_net
+
+  datanode1:
+    build: .
+    container_name: distrieats-datanode1
+    command: ["./datanode", "--id=DN1", "--port=50051", "--peers=datanode2:50052,datanode3:50053"]
+    ports:
+      - "50051:50051"
+    networks:
+      - distrieats_net
+
+  cliente1:
+    build: .
+    container_name: distrieats-cliente1
+    command: ["./client", "--gateway=gateway:50040", "--client=Cliente-1", "--pedido=Ped-001"]
+    depends_on:
+      - gateway
+    networks:
+      - distrieats_net
+
+  # VM 3
+  datanode2:
+    build: .
+    container_name: distrieats-datanode2
+    command: ["./datanode", "--id=DN2", "--port=50052", "--peers=datanode1:50051,datanode3:50053"]
+    ports:
+      - "50052:50052"
+    networks:
+      - distrieats_net
+
+  cliente2:
+    build: .
+    container_name: distrieats-cliente2
+    command: ["./client", "--gateway=gateway:50040", "--client=Cliente-2", "--pedido=Ped-002"]
+    depends_on:
+      - gateway
+    networks:
+      - distrieats_net
+
+  # VM 4
+  datanode3:
+    build: .
+    container_name: distrieats-datanode3
+    command: ["./datanode", "--id=DN3", "--port=50053", "--peers=datanode1:50051,datanode2:50052"]
+    ports:
+      - "50053:50053"
+    networks:
+      - distrieats_net
+
+  cliente3:
+    build: .
+    container_name: distrieats-cliente3
+    command: ["./client", "--gateway=gateway:50040", "--client=Cliente-3", "--pedido=Ped-003"]
+    depends_on:
+      - gateway
+    networks:
+      - distrieats_net
+
+networks:
+  distrieats_net:
+    driver: bridge
