@@ -349,6 +349,190 @@ func (x *ConsultarEstadoResponse) GetDatanodeConsultado() string {
 	return ""
 }
 
+type ReportarValidacionRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ClienteId     string                 `protobuf:"bytes,1,opt,name=cliente_id,json=clienteId,proto3" json:"cliente_id,omitempty"`
+	PedidoId      string                 `protobuf:"bytes,2,opt,name=pedido_id,json=pedidoId,proto3" json:"pedido_id,omitempty"`
+	DatanodeId    string                 `protobuf:"bytes,3,opt,name=datanode_id,json=datanodeId,proto3" json:"datanode_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReportarValidacionRequest) Reset() {
+	*x = ReportarValidacionRequest{}
+	mi := &file_proto_distrieats_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReportarValidacionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReportarValidacionRequest) ProtoMessage() {}
+
+func (x *ReportarValidacionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_distrieats_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReportarValidacionRequest.ProtoReflect.Descriptor instead.
+func (*ReportarValidacionRequest) Descriptor() ([]byte, []int) {
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ReportarValidacionRequest) GetClienteId() string {
+	if x != nil {
+		return x.ClienteId
+	}
+	return ""
+}
+
+func (x *ReportarValidacionRequest) GetPedidoId() string {
+	if x != nil {
+		return x.PedidoId
+	}
+	return ""
+}
+
+func (x *ReportarValidacionRequest) GetDatanodeId() string {
+	if x != nil {
+		return x.DatanodeId
+	}
+	return ""
+}
+
+type ReportarValidacionResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exito         bool                   `protobuf:"varint,1,opt,name=exito,proto3" json:"exito,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ReportarValidacionResponse) Reset() {
+	*x = ReportarValidacionResponse{}
+	mi := &file_proto_distrieats_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ReportarValidacionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ReportarValidacionResponse) ProtoMessage() {}
+
+func (x *ReportarValidacionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_distrieats_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ReportarValidacionResponse.ProtoReflect.Descriptor instead.
+func (*ReportarValidacionResponse) Descriptor() ([]byte, []int) {
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ReportarValidacionResponse) GetExito() bool {
+	if x != nil {
+		return x.Exito
+	}
+	return false
+}
+
+type GetAllOrdersRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllOrdersRequest) Reset() {
+	*x = GetAllOrdersRequest{}
+	mi := &file_proto_distrieats_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllOrdersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllOrdersRequest) ProtoMessage() {}
+
+func (x *GetAllOrdersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_distrieats_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllOrdersRequest.ProtoReflect.Descriptor instead.
+func (*GetAllOrdersRequest) Descriptor() ([]byte, []int) {
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{8}
+}
+
+type GetAllOrdersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Pedidos       map[string]*Pedido     `protobuf:"bytes,1,rep,name=pedidos,proto3" json:"pedidos,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetAllOrdersResponse) Reset() {
+	*x = GetAllOrdersResponse{}
+	mi := &file_proto_distrieats_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetAllOrdersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetAllOrdersResponse) ProtoMessage() {}
+
+func (x *GetAllOrdersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_distrieats_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetAllOrdersResponse.ProtoReflect.Descriptor instead.
+func (*GetAllOrdersResponse) Descriptor() ([]byte, []int) {
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetAllOrdersResponse) GetPedidos() map[string]*Pedido {
+	if x != nil {
+		return x.Pedidos
+	}
+	return nil
+}
+
 type UpdateOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Pedido        *Pedido                `protobuf:"bytes,1,opt,name=pedido,proto3" json:"pedido,omitempty"`
@@ -358,7 +542,7 @@ type UpdateOrderRequest struct {
 
 func (x *UpdateOrderRequest) Reset() {
 	*x = UpdateOrderRequest{}
-	mi := &file_proto_distrieats_proto_msgTypes[6]
+	mi := &file_proto_distrieats_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -370,7 +554,7 @@ func (x *UpdateOrderRequest) String() string {
 func (*UpdateOrderRequest) ProtoMessage() {}
 
 func (x *UpdateOrderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_distrieats_proto_msgTypes[6]
+	mi := &file_proto_distrieats_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -383,7 +567,7 @@ func (x *UpdateOrderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateOrderRequest.ProtoReflect.Descriptor instead.
 func (*UpdateOrderRequest) Descriptor() ([]byte, []int) {
-	return file_proto_distrieats_proto_rawDescGZIP(), []int{6}
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UpdateOrderRequest) GetPedido() *Pedido {
@@ -403,7 +587,7 @@ type UpdateOrderResponse struct {
 
 func (x *UpdateOrderResponse) Reset() {
 	*x = UpdateOrderResponse{}
-	mi := &file_proto_distrieats_proto_msgTypes[7]
+	mi := &file_proto_distrieats_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -415,7 +599,7 @@ func (x *UpdateOrderResponse) String() string {
 func (*UpdateOrderResponse) ProtoMessage() {}
 
 func (x *UpdateOrderResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_distrieats_proto_msgTypes[7]
+	mi := &file_proto_distrieats_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -428,7 +612,7 @@ func (x *UpdateOrderResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateOrderResponse.ProtoReflect.Descriptor instead.
 func (*UpdateOrderResponse) Descriptor() ([]byte, []int) {
-	return file_proto_distrieats_proto_rawDescGZIP(), []int{7}
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UpdateOrderResponse) GetExito() bool {
@@ -454,7 +638,7 @@ type GetOrderRequest struct {
 
 func (x *GetOrderRequest) Reset() {
 	*x = GetOrderRequest{}
-	mi := &file_proto_distrieats_proto_msgTypes[8]
+	mi := &file_proto_distrieats_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -466,7 +650,7 @@ func (x *GetOrderRequest) String() string {
 func (*GetOrderRequest) ProtoMessage() {}
 
 func (x *GetOrderRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_distrieats_proto_msgTypes[8]
+	mi := &file_proto_distrieats_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -479,7 +663,7 @@ func (x *GetOrderRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrderRequest.ProtoReflect.Descriptor instead.
 func (*GetOrderRequest) Descriptor() ([]byte, []int) {
-	return file_proto_distrieats_proto_rawDescGZIP(), []int{8}
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *GetOrderRequest) GetPedidoId() string {
@@ -499,7 +683,7 @@ type GetOrderResponse struct {
 
 func (x *GetOrderResponse) Reset() {
 	*x = GetOrderResponse{}
-	mi := &file_proto_distrieats_proto_msgTypes[9]
+	mi := &file_proto_distrieats_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -511,7 +695,7 @@ func (x *GetOrderResponse) String() string {
 func (*GetOrderResponse) ProtoMessage() {}
 
 func (x *GetOrderResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_distrieats_proto_msgTypes[9]
+	mi := &file_proto_distrieats_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -524,7 +708,7 @@ func (x *GetOrderResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetOrderResponse.ProtoReflect.Descriptor instead.
 func (*GetOrderResponse) Descriptor() ([]byte, []int) {
-	return file_proto_distrieats_proto_rawDescGZIP(), []int{9}
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *GetOrderResponse) GetEncontrado() bool {
@@ -552,7 +736,7 @@ type GossipRequest struct {
 
 func (x *GossipRequest) Reset() {
 	*x = GossipRequest{}
-	mi := &file_proto_distrieats_proto_msgTypes[10]
+	mi := &file_proto_distrieats_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -564,7 +748,7 @@ func (x *GossipRequest) String() string {
 func (*GossipRequest) ProtoMessage() {}
 
 func (x *GossipRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_distrieats_proto_msgTypes[10]
+	mi := &file_proto_distrieats_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -577,7 +761,7 @@ func (x *GossipRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GossipRequest.ProtoReflect.Descriptor instead.
 func (*GossipRequest) Descriptor() ([]byte, []int) {
-	return file_proto_distrieats_proto_rawDescGZIP(), []int{10}
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *GossipRequest) GetDatanodeId() string {
@@ -604,7 +788,7 @@ type GossipResponse struct {
 
 func (x *GossipResponse) Reset() {
 	*x = GossipResponse{}
-	mi := &file_proto_distrieats_proto_msgTypes[11]
+	mi := &file_proto_distrieats_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -616,7 +800,7 @@ func (x *GossipResponse) String() string {
 func (*GossipResponse) ProtoMessage() {}
 
 func (x *GossipResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_distrieats_proto_msgTypes[11]
+	mi := &file_proto_distrieats_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -629,7 +813,7 @@ func (x *GossipResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GossipResponse.ProtoReflect.Descriptor instead.
 func (*GossipResponse) Descriptor() ([]byte, []int) {
-	return file_proto_distrieats_proto_rawDescGZIP(), []int{11}
+	return file_proto_distrieats_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GossipResponse) GetExito() bool {
@@ -678,7 +862,21 @@ const file_proto_distrieats_proto_rawDesc = "" +
 	"encontrado\x18\x01 \x01(\bR\n" +
 	"encontrado\x12*\n" +
 	"\x06pedido\x18\x02 \x01(\v2\x12.distrieats.PedidoR\x06pedido\x12/\n" +
-	"\x13datanode_consultado\x18\x03 \x01(\tR\x12datanodeConsultado\"@\n" +
+	"\x13datanode_consultado\x18\x03 \x01(\tR\x12datanodeConsultado\"x\n" +
+	"\x19ReportarValidacionRequest\x12\x1d\n" +
+	"\n" +
+	"cliente_id\x18\x01 \x01(\tR\tclienteId\x12\x1b\n" +
+	"\tpedido_id\x18\x02 \x01(\tR\bpedidoId\x12\x1f\n" +
+	"\vdatanode_id\x18\x03 \x01(\tR\n" +
+	"datanodeId\"2\n" +
+	"\x1aReportarValidacionResponse\x12\x14\n" +
+	"\x05exito\x18\x01 \x01(\bR\x05exito\"\x15\n" +
+	"\x13GetAllOrdersRequest\"\xaf\x01\n" +
+	"\x14GetAllOrdersResponse\x12G\n" +
+	"\apedidos\x18\x01 \x03(\v2-.distrieats.GetAllOrdersResponse.PedidosEntryR\apedidos\x1aN\n" +
+	"\fPedidosEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12(\n" +
+	"\x05value\x18\x02 \x01(\v2\x12.distrieats.PedidoR\x05value:\x028\x01\"@\n" +
 	"\x12UpdateOrderRequest\x12*\n" +
 	"\x06pedido\x18\x01 \x01(\v2\x12.distrieats.PedidoR\x06pedido\"E\n" +
 	"\x13UpdateOrderResponse\x12\x14\n" +
@@ -703,15 +901,17 @@ const file_proto_distrieats_proto_rawDesc = "" +
 	"\apedidos\x18\x02 \x03(\v2'.distrieats.GossipResponse.PedidosEntryR\apedidos\x1aN\n" +
 	"\fPedidosEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12(\n" +
-	"\x05value\x18\x02 \x01(\v2\x12.distrieats.PedidoR\x05value:\x028\x012\xbb\x01\n" +
+	"\x05value\x18\x02 \x01(\v2\x12.distrieats.PedidoR\x05value:\x028\x012\xa0\x02\n" +
 	"\rClientService\x12N\n" +
 	"\vCrearPedido\x12\x1e.distrieats.CrearPedidoRequest\x1a\x1f.distrieats.CrearPedidoResponse\x12Z\n" +
-	"\x0fConsultarEstado\x12\".distrieats.ConsultarEstadoRequest\x1a#.distrieats.ConsultarEstadoResponse2\xed\x01\n" +
+	"\x0fConsultarEstado\x12\".distrieats.ConsultarEstadoRequest\x1a#.distrieats.ConsultarEstadoResponse\x12c\n" +
+	"\x12ReportarValidacion\x12%.distrieats.ReportarValidacionRequest\x1a&.distrieats.ReportarValidacionResponse2\xc0\x02\n" +
 	"\x0fDatanodeService\x12N\n" +
 	"\vUpdateOrder\x12\x1e.distrieats.UpdateOrderRequest\x1a\x1f.distrieats.UpdateOrderResponse\x12E\n" +
 	"\bGetOrder\x12\x1b.distrieats.GetOrderRequest\x1a\x1c.distrieats.GetOrderResponse\x12C\n" +
 	"\n" +
-	"GossipSync\x12\x19.distrieats.GossipRequest\x1a\x1a.distrieats.GossipResponseB\x12Z\x10distrieats/protob\x06proto3"
+	"GossipSync\x12\x19.distrieats.GossipRequest\x1a\x1a.distrieats.GossipResponse\x12Q\n" +
+	"\fGetAllOrders\x12\x1f.distrieats.GetAllOrdersRequest\x1a .distrieats.GetAllOrdersResponseB\x12Z\x10distrieats/protob\x06proto3"
 
 var (
 	file_proto_distrieats_proto_rawDescOnce sync.Once
@@ -725,49 +925,60 @@ func file_proto_distrieats_proto_rawDescGZIP() []byte {
 	return file_proto_distrieats_proto_rawDescData
 }
 
-var file_proto_distrieats_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_proto_distrieats_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_proto_distrieats_proto_goTypes = []any{
-	(*VectorClock)(nil),             // 0: distrieats.VectorClock
-	(*Pedido)(nil),                  // 1: distrieats.Pedido
-	(*CrearPedidoRequest)(nil),      // 2: distrieats.CrearPedidoRequest
-	(*CrearPedidoResponse)(nil),     // 3: distrieats.CrearPedidoResponse
-	(*ConsultarEstadoRequest)(nil),  // 4: distrieats.ConsultarEstadoRequest
-	(*ConsultarEstadoResponse)(nil), // 5: distrieats.ConsultarEstadoResponse
-	(*UpdateOrderRequest)(nil),      // 6: distrieats.UpdateOrderRequest
-	(*UpdateOrderResponse)(nil),     // 7: distrieats.UpdateOrderResponse
-	(*GetOrderRequest)(nil),         // 8: distrieats.GetOrderRequest
-	(*GetOrderResponse)(nil),        // 9: distrieats.GetOrderResponse
-	(*GossipRequest)(nil),           // 10: distrieats.GossipRequest
-	(*GossipResponse)(nil),          // 11: distrieats.GossipResponse
-	nil,                             // 12: distrieats.VectorClock.ClocksEntry
-	nil,                             // 13: distrieats.GossipRequest.PedidosEntry
-	nil,                             // 14: distrieats.GossipResponse.PedidosEntry
+	(*VectorClock)(nil),                // 0: distrieats.VectorClock
+	(*Pedido)(nil),                     // 1: distrieats.Pedido
+	(*CrearPedidoRequest)(nil),         // 2: distrieats.CrearPedidoRequest
+	(*CrearPedidoResponse)(nil),        // 3: distrieats.CrearPedidoResponse
+	(*ConsultarEstadoRequest)(nil),     // 4: distrieats.ConsultarEstadoRequest
+	(*ConsultarEstadoResponse)(nil),    // 5: distrieats.ConsultarEstadoResponse
+	(*ReportarValidacionRequest)(nil),  // 6: distrieats.ReportarValidacionRequest
+	(*ReportarValidacionResponse)(nil), // 7: distrieats.ReportarValidacionResponse
+	(*GetAllOrdersRequest)(nil),        // 8: distrieats.GetAllOrdersRequest
+	(*GetAllOrdersResponse)(nil),       // 9: distrieats.GetAllOrdersResponse
+	(*UpdateOrderRequest)(nil),         // 10: distrieats.UpdateOrderRequest
+	(*UpdateOrderResponse)(nil),        // 11: distrieats.UpdateOrderResponse
+	(*GetOrderRequest)(nil),            // 12: distrieats.GetOrderRequest
+	(*GetOrderResponse)(nil),           // 13: distrieats.GetOrderResponse
+	(*GossipRequest)(nil),              // 14: distrieats.GossipRequest
+	(*GossipResponse)(nil),             // 15: distrieats.GossipResponse
+	nil,                                // 16: distrieats.VectorClock.ClocksEntry
+	nil,                                // 17: distrieats.GetAllOrdersResponse.PedidosEntry
+	nil,                                // 18: distrieats.GossipRequest.PedidosEntry
+	nil,                                // 19: distrieats.GossipResponse.PedidosEntry
 }
 var file_proto_distrieats_proto_depIdxs = []int32{
-	12, // 0: distrieats.VectorClock.clocks:type_name -> distrieats.VectorClock.ClocksEntry
+	16, // 0: distrieats.VectorClock.clocks:type_name -> distrieats.VectorClock.ClocksEntry
 	0,  // 1: distrieats.Pedido.vector_clock:type_name -> distrieats.VectorClock
 	1,  // 2: distrieats.ConsultarEstadoResponse.pedido:type_name -> distrieats.Pedido
-	1,  // 3: distrieats.UpdateOrderRequest.pedido:type_name -> distrieats.Pedido
-	1,  // 4: distrieats.GetOrderResponse.pedido:type_name -> distrieats.Pedido
-	13, // 5: distrieats.GossipRequest.pedidos:type_name -> distrieats.GossipRequest.PedidosEntry
-	14, // 6: distrieats.GossipResponse.pedidos:type_name -> distrieats.GossipResponse.PedidosEntry
-	1,  // 7: distrieats.GossipRequest.PedidosEntry.value:type_name -> distrieats.Pedido
-	1,  // 8: distrieats.GossipResponse.PedidosEntry.value:type_name -> distrieats.Pedido
-	2,  // 9: distrieats.ClientService.CrearPedido:input_type -> distrieats.CrearPedidoRequest
-	4,  // 10: distrieats.ClientService.ConsultarEstado:input_type -> distrieats.ConsultarEstadoRequest
-	6,  // 11: distrieats.DatanodeService.UpdateOrder:input_type -> distrieats.UpdateOrderRequest
-	8,  // 12: distrieats.DatanodeService.GetOrder:input_type -> distrieats.GetOrderRequest
-	10, // 13: distrieats.DatanodeService.GossipSync:input_type -> distrieats.GossipRequest
-	3,  // 14: distrieats.ClientService.CrearPedido:output_type -> distrieats.CrearPedidoResponse
-	5,  // 15: distrieats.ClientService.ConsultarEstado:output_type -> distrieats.ConsultarEstadoResponse
-	7,  // 16: distrieats.DatanodeService.UpdateOrder:output_type -> distrieats.UpdateOrderResponse
-	9,  // 17: distrieats.DatanodeService.GetOrder:output_type -> distrieats.GetOrderResponse
-	11, // 18: distrieats.DatanodeService.GossipSync:output_type -> distrieats.GossipResponse
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	17, // 3: distrieats.GetAllOrdersResponse.pedidos:type_name -> distrieats.GetAllOrdersResponse.PedidosEntry
+	1,  // 4: distrieats.UpdateOrderRequest.pedido:type_name -> distrieats.Pedido
+	1,  // 5: distrieats.GetOrderResponse.pedido:type_name -> distrieats.Pedido
+	18, // 6: distrieats.GossipRequest.pedidos:type_name -> distrieats.GossipRequest.PedidosEntry
+	19, // 7: distrieats.GossipResponse.pedidos:type_name -> distrieats.GossipResponse.PedidosEntry
+	1,  // 8: distrieats.GetAllOrdersResponse.PedidosEntry.value:type_name -> distrieats.Pedido
+	1,  // 9: distrieats.GossipRequest.PedidosEntry.value:type_name -> distrieats.Pedido
+	1,  // 10: distrieats.GossipResponse.PedidosEntry.value:type_name -> distrieats.Pedido
+	2,  // 11: distrieats.ClientService.CrearPedido:input_type -> distrieats.CrearPedidoRequest
+	4,  // 12: distrieats.ClientService.ConsultarEstado:input_type -> distrieats.ConsultarEstadoRequest
+	6,  // 13: distrieats.ClientService.ReportarValidacion:input_type -> distrieats.ReportarValidacionRequest
+	10, // 14: distrieats.DatanodeService.UpdateOrder:input_type -> distrieats.UpdateOrderRequest
+	12, // 15: distrieats.DatanodeService.GetOrder:input_type -> distrieats.GetOrderRequest
+	14, // 16: distrieats.DatanodeService.GossipSync:input_type -> distrieats.GossipRequest
+	8,  // 17: distrieats.DatanodeService.GetAllOrders:input_type -> distrieats.GetAllOrdersRequest
+	3,  // 18: distrieats.ClientService.CrearPedido:output_type -> distrieats.CrearPedidoResponse
+	5,  // 19: distrieats.ClientService.ConsultarEstado:output_type -> distrieats.ConsultarEstadoResponse
+	7,  // 20: distrieats.ClientService.ReportarValidacion:output_type -> distrieats.ReportarValidacionResponse
+	11, // 21: distrieats.DatanodeService.UpdateOrder:output_type -> distrieats.UpdateOrderResponse
+	13, // 22: distrieats.DatanodeService.GetOrder:output_type -> distrieats.GetOrderResponse
+	15, // 23: distrieats.DatanodeService.GossipSync:output_type -> distrieats.GossipResponse
+	9,  // 24: distrieats.DatanodeService.GetAllOrders:output_type -> distrieats.GetAllOrdersResponse
+	18, // [18:25] is the sub-list for method output_type
+	11, // [11:18] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_proto_distrieats_proto_init() }
@@ -781,7 +992,7 @@ func file_proto_distrieats_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_distrieats_proto_rawDesc), len(file_proto_distrieats_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   15,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

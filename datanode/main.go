@@ -180,6 +180,16 @@ func (s *datanodeServer) GetOrder(ctx context.Context, req *pb.GetOrderRequest) 
 	return &pb.GetOrderResponse{Encontrado: false}, nil
 }
 
+func (s *datanodeServer) GetAllOrders(ctx context.Context, req *pb.GetAllOrdersRequest) (*pb.GetAllOrdersResponse, error) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	pedidosCopy := make(map[string]*pb.Pedido)
+	for k, v := range s.pedidos {
+		pedidosCopy[k] = v
+	}
+	return &pb.GetAllOrdersResponse{Pedidos: pedidosCopy}, nil
+}
+
 func (s *datanodeServer) GossipSync(ctx context.Context, req *pb.GossipRequest) (*pb.GossipResponse, error) {
 	log.Printf("[Gossip] Recibido sync de %s", req.DatanodeId)
 	

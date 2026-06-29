@@ -1,0 +1,42 @@
+=== REPORTE FINAL : DISTRIEATS ===
+
+[ESTADO GLOBAL DE PEDIDOS - Convergencia Alcanzada]
+Pedido ID: Ped-M-022 | Estado Final: Cancelado | Reloj Vectorial: [Productor:69]
+Pedido ID: Ped-M-020 | Estado Final: Entregado | Reloj Vectorial: [Productor:67]
+Pedido ID: Ped-M-009 | Estado Final: Entregado | Reloj Vectorial: [Productor:74]
+Pedido ID: Ped-M-017 | Estado Final: Entregado | Reloj Vectorial: [Productor:87]
+Pedido ID: Ped-M-014 | Estado Final: Recibido | Reloj Vectorial: [Productor:88]
+Pedido ID: Ped-M-021 | Estado Final: Entregado | Reloj Vectorial: [Productor:81]
+Pedido ID: Ped-M-006 | Estado Final: Entregado | Reloj Vectorial: [Productor:69]
+Pedido ID: Ped-M-025 | Estado Final: Cancelado | Reloj Vectorial: [Productor:95]
+Pedido ID: Ped-M-015 | Estado Final: Recibido | Reloj Vectorial: [Productor:99]
+Pedido ID: Ped-M-012 | Estado Final: Recibido | Reloj Vectorial: [Productor:86]
+Pedido ID: Ped-M-019 | Estado Final: Entregado | Reloj Vectorial: [Productor:89]
+Pedido ID: Ped-M-005 | Estado Final: Entregado | Reloj Vectorial: [Productor:57]
+Pedido ID: Ped-M-013 | Estado Final: Recibido | Reloj Vectorial: [Productor:87]
+Pedido ID: Ped-M-002 | Estado Final: Entregado | Reloj Vectorial: [Productor:38]
+Pedido ID: Ped-003 | Estado Final: Recibido | Reloj Vectorial: [Broker:1]
+Pedido ID: Ped-M-008 | Estado Final: Entregado | Reloj Vectorial: [Productor:91]
+Pedido ID: Ped-M-004 | Estado Final: Entregado | Reloj Vectorial: [Productor:54]
+Pedido ID: Ped-M-003 | Estado Final: Entregado | Reloj Vectorial: [Productor:47]
+Pedido ID: Ped-S-002 | Estado Final: Entregado | Reloj Vectorial: [Productor:91]
+Pedido ID: Ped-S-004 | Estado Final: Entregado | Reloj Vectorial: [Productor:98]
+Pedido ID: Ped-001 | Estado Final: Recibido | Reloj Vectorial: [Broker:1]
+Pedido ID: Ped-M-001 | Estado Final: Entregado | Reloj Vectorial: [Productor:17]
+Pedido ID: Ped-M-007 | Estado Final: Entregado | Reloj Vectorial: [Productor:77]
+Pedido ID: Ped-M-018 | Estado Final: Entregado | Reloj Vectorial: [Productor:90]
+Pedido ID: Ped-S-003 | Estado Final: Cancelado | Reloj Vectorial: [Productor:93]
+Pedido ID: Ped-M-023 | Estado Final: Entregado | Reloj Vectorial: [Productor:99]
+Pedido ID: Ped-002 | Estado Final: Recibido | Reloj Vectorial: [Broker:1]
+Pedido ID: Ped-M-024 | Estado Final: Preparando | Reloj Vectorial: [Productor:93]
+Pedido ID: Ped-S-005 | Estado Final: En Camino | Reloj Vectorial: [Productor:95]
+Pedido ID: Ped-M-016 | Estado Final: Entregado | Reloj Vectorial: [Productor:76]
+Pedido ID: Ped-M-011 | Estado Final: En Camino | Reloj Vectorial: [Productor:96]
+Pedido ID: Ped-M-010 | Estado Final: Cancelado | Reloj Vectorial: [Productor:93]
+Pedido ID: Ped-S-001 | Estado Final: Cancelado | Reloj Vectorial: [Productor:71]
+
+[AUDITORIA READ YOUR WRITES]
+- Cliente Cliente-1 (Pedido: Ped-001): Validacion Exitosa en Datanode datanode1:50051
+- Cliente Cliente-2 (Pedido: Ped-002): Validacion Exitosa en Datanode datanode2:50052
+- Cliente Cliente-3 (Pedido: Ped-003): Validacion Exitosa en Datanode datanode3:50053
+=================================

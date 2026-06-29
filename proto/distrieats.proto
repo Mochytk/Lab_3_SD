@@ -23,6 +23,8 @@ service ClientService {
   rpc CrearPedido (CrearPedidoRequest) returns (CrearPedidoResponse);
   // Operación de Lectura
   rpc ConsultarEstado (ConsultarEstadoRequest) returns (ConsultarEstadoResponse);
+  // Reporte de Validación exitosa
+  rpc ReportarValidacion (ReportarValidacionRequest) returns (ReportarValidacionResponse);
 }
 
 message CrearPedidoRequest {
@@ -47,6 +49,16 @@ message ConsultarEstadoResponse {
   string datanode_consultado = 3;
 }
 
+message ReportarValidacionRequest {
+  string cliente_id = 1;
+  string pedido_id = 2;
+  string datanode_id = 3;
+}
+
+message ReportarValidacionResponse {
+  bool exito = 1;
+}
+
 // --- Servicios de los Datanodes ---
 
 service DatanodeService {
@@ -58,6 +70,15 @@ service DatanodeService {
   
   // Sincronización entre pares (Gossip)
   rpc GossipSync (GossipRequest) returns (GossipResponse);
+
+  // Consulta global de pedidos para el reporte final
+  rpc GetAllOrders (GetAllOrdersRequest) returns (GetAllOrdersResponse);
+}
+
+message GetAllOrdersRequest {}
+
+message GetAllOrdersResponse {
+  map<string, Pedido> pedidos = 1;
 }
 
 message UpdateOrderRequest {

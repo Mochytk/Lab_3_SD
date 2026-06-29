@@ -27,6 +27,7 @@ type brokerServer struct {
 	datanodes    []string
 	rrIndex      int
 	datanodeConns map[string]pb.DatanodeServiceClient
+	validaciones []string // Almacena reportes de validaciones exitosas
 }
 
 func newBrokerServer(datanodeAddrs []string) *brokerServer {
@@ -43,6 +44,7 @@ func newBrokerServer(datanodeAddrs []string) *brokerServer {
 	return &brokerServer{
 		datanodes:    datanodeAddrs,
 		datanodeConns: conns,
+		validaciones: make([]string, 0),
 	}
 }
 
@@ -58,52 +60,60 @@ func (s *brokerServer) getNextDatanode() string {
 }
 
 func (s *brokerServer) CrearPedido(ctx context.Context, req *pb.CrearPedidoRequest) (*pb.CrearPedidoResponse, error) {
-	nodeAddr := s.getNextDatanode()
-	if nodeAddr == "" {
-		return &pb.CrearPedidoResponse{Exito: false, Mensaje: "No hay datanodes disponibles"}, nil
+	for i := 0; i < len(s.datanodes); i++ {
+		nodeAddr := s.getNextDatanode()
+		if nodeAddr == "" {
+			return &pb.CrearPedidoResponse{Exito: false, Mensaje: "No hay datanodes disponibles"}, nil
+		}
+
+		client := s.datanodeConns[nodeAddr]
+		vclock := &pb.VectorClock{Clocks: map[string]int32{"Broker": 1}}
+
+		pedido := &pb.Pedido{
+			Id:          req.PedidoId,
+			Estado:      "Recibido",
+			VectorClock: vclock,
+		}
+
+		_, err := client.UpdateOrder(ctx, &pb.UpdateOrderRequest{Pedido: pedido})
+		if err == nil {
+			log.Printf("[Broker] Pedido %s creado y enrutado a %s", req.PedidoId, nodeAddr)
+			return &pb.CrearPedidoResponse{Exito: true, Mensaje: "Pedido creado exitosamente", DatanodeAsignado: nodeAddr}, nil
+		}
+		log.Printf("[Broker] Error creando pedido en %s: %v. Reintentando...", nodeAddr, err)
 	}
-
-	client := s.datanodeConns[nodeAddr]
-	
-	// Crear el reloj vectorial inicial
-	vclock := &pb.VectorClock{Clocks: map[string]int32{"Broker": 1}} // Simplified
-
-	pedido := &pb.Pedido{
-		Id:          req.PedidoId,
-		Estado:      "Recibido",
-		VectorClock: vclock,
-	}
-
-	_, err := client.UpdateOrder(ctx, &pb.UpdateOrderRequest{Pedido: pedido})
-	if err != nil {
-		log.Printf("[Broker] Error creando pedido en %s: %v", nodeAddr, err)
-		return &pb.CrearPedidoResponse{Exito: false, Mensaje: "Error comunicando con datanode"}, nil
-	}
-
-	log.Printf("[Broker] Pedido %s creado y enrutado a %s", req.PedidoId, nodeAddr)
-	return &pb.CrearPedidoResponse{Exito: true, Mensaje: "Pedido creado exitosamente", DatanodeAsignado: nodeAddr}, nil
+	return &pb.CrearPedidoResponse{Exito: false, Mensaje: "Error comunicando con datanodes, todos fallaron"}, nil
 }
 
 func (s *brokerServer) ConsultarEstado(ctx context.Context, req *pb.ConsultarEstadoRequest) (*pb.ConsultarEstadoResponse, error) {
-	nodeAddr := s.getNextDatanode()
-	if nodeAddr == "" {
-		return &pb.ConsultarEstadoResponse{Encontrado: false}, nil
-	}
+	for i := 0; i < len(s.datanodes); i++ {
+		nodeAddr := s.getNextDatanode()
+		if nodeAddr == "" {
+			return &pb.ConsultarEstadoResponse{Encontrado: false}, nil
+		}
 
-	client := s.datanodeConns[nodeAddr]
-	
-	resp, err := client.GetOrder(ctx, &pb.GetOrderRequest{PedidoId: req.PedidoId})
-	if err != nil {
-		log.Printf("[Broker] Error consultando pedido en %s: %v", nodeAddr, err)
-		return &pb.ConsultarEstadoResponse{Encontrado: false}, nil
+		client := s.datanodeConns[nodeAddr]
+		resp, err := client.GetOrder(ctx, &pb.GetOrderRequest{PedidoId: req.PedidoId})
+		if err == nil {
+			log.Printf("[Broker] Consulta de pedido %s enrutada a %s", req.PedidoId, nodeAddr)
+			return &pb.ConsultarEstadoResponse{
+				Encontrado:         resp.Encontrado,
+				Pedido:             resp.Pedido,
+				DatanodeConsultado: nodeAddr,
+			}, nil
+		}
+		log.Printf("[Broker] Error consultando pedido en %s: %v. Reintentando...", nodeAddr, err)
 	}
+	return &pb.ConsultarEstadoResponse{Encontrado: false}, nil
+}
 
-	log.Printf("[Broker] Consulta de pedido %s enrutada a %s", req.PedidoId, nodeAddr)
-	return &pb.ConsultarEstadoResponse{
-		Encontrado:         resp.Encontrado,
-		Pedido:             resp.Pedido,
-		DatanodeConsultado: nodeAddr,
-	}, nil
+func (s *brokerServer) ReportarValidacion(ctx context.Context, req *pb.ReportarValidacionRequest) (*pb.ReportarValidacionResponse, error) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	msg := fmt.Sprintf("- Cliente %s (Pedido: %s): Validacion Exitosa en Datanode %s", req.ClienteId, req.PedidoId, req.DatanodeId)
+	s.validaciones = append(s.validaciones, msg)
+	log.Printf("[Broker] %s", msg)
+	return &pb.ReportarValidacionResponse{Exito: true}, nil
 }
 
 func (s *brokerServer) broadcastUpdate(pedido *pb.Pedido) {

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.21-alpine AS builder
+FROM golang:alpine AS builder
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ RUN go build -o bin/client ./client
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/bin/* ./
-# Copiar el archivo CSV necesario para el broker
-COPY broker/pedidos.csv ./pedidos.csv
+# Copiar los archivos CSV necesarios para el broker
+COPY broker/*.csv ./
 
 # El comando se especificará en docker-compose

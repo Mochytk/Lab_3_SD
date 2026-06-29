@@ -5,7 +5,9 @@ services:
   broker:
     build: .
     container_name: distrieats-broker
-    command: ["./broker", "--port=50050", "--datanodes=datanode1:50051,datanode2:50052,datanode3:50053", "--csv=pedidos.csv"]
+    environment:
+      - CSV_FILE=${CSV_FILE:-pedidos.csv}
+    command: ["sh", "-c", "./broker --port=50050 --datanodes=datanode1:50051,datanode2:50052,datanode3:50053 --csv=$$CSV_FILE"]
     ports:
       - "50050:50050"
     networks:

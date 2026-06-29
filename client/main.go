@@ -33,6 +33,24 @@ func main() {
 	// Esperar un poco a que el sistema se inicialice en la simulación
 	time.Sleep(10 * time.Second)
 
+	// 0. Lectura de Estado Base
+	log.Printf("[%s] Solicitando estado base del pedido %s...", *clientID, *pedidoID)
+	ctx0, cancel0 := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel0()
+	
+	baseResp, err := client.ConsultarEstado(ctx0, &pb.ConsultarEstadoRequest{
+		ClienteId: *clientID,
+		PedidoId:  *pedidoID,
+	})
+	
+	if err != nil {
+		log.Printf("[%s] Advertencia: Error consultando estado base: %v", *clientID, err)
+	} else if baseResp.Encontrado {
+		log.Printf("[%s] Estado base encontrado: %s", *clientID, baseResp.Pedido.Estado)
+	} else {
+		log.Printf("[%s] Estado base: Pedido no existe (Correcto).", *clientID)
+	}
+
 	// 1. Envío de Operación de Escritura
 	log.Printf("[%s] Enviando CrearPedido (ID: %s)", *clientID, *pedidoID)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -71,6 +89,15 @@ func main() {
 	if readResp.Encontrado {
 		log.Printf("[%s] ✅ VALIDACIÓN RYW EXITOSA: Pedido %s encontrado en Datanode %s. Estado: %s", 
 			*clientID, readResp.Pedido.Id, readResp.DatanodeConsultado, readResp.Pedido.Estado)
+		
+		// 3. Reportar Validación
+		ctx3, cancel3 := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel3()
+		_, _ = client.ReportarValidacion(ctx3, &pb.ReportarValidacionRequest{
+			ClienteId:  *clientID,
+			PedidoId:   *pedidoID,
+			DatanodeId: readResp.DatanodeConsultado,
+		})
 	} else {
 		log.Fatalf("[%s] ❌ ERROR RYW: Pedido %s NO ENCONTRADO en la lectura subsecuente. Falló la afinidad de sesión.", *clientID, *pedidoID)
 	}

@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ClientService_CrearPedido_FullMethodName     = "/distrieats.ClientService/CrearPedido"
-	ClientService_ConsultarEstado_FullMethodName = "/distrieats.ClientService/ConsultarEstado"
+	ClientService_CrearPedido_FullMethodName        = "/distrieats.ClientService/CrearPedido"
+	ClientService_ConsultarEstado_FullMethodName    = "/distrieats.ClientService/ConsultarEstado"
+	ClientService_ReportarValidacion_FullMethodName = "/distrieats.ClientService/ReportarValidacion"
 )
 
 // ClientServiceClient is the client API for ClientService service.
@@ -31,6 +32,8 @@ type ClientServiceClient interface {
 	CrearPedido(ctx context.Context, in *CrearPedidoRequest, opts ...grpc.CallOption) (*CrearPedidoResponse, error)
 	// Operación de Lectura
 	ConsultarEstado(ctx context.Context, in *ConsultarEstadoRequest, opts ...grpc.CallOption) (*ConsultarEstadoResponse, error)
+	// Reporte de Validación exitosa
+	ReportarValidacion(ctx context.Context, in *ReportarValidacionRequest, opts ...grpc.CallOption) (*ReportarValidacionResponse, error)
 }
 
 type clientServiceClient struct {
@@ -61,6 +64,16 @@ func (c *clientServiceClient) ConsultarEstado(ctx context.Context, in *Consultar
 	return out, nil
 }
 
+func (c *clientServiceClient) ReportarValidacion(ctx context.Context, in *ReportarValidacionRequest, opts ...grpc.CallOption) (*ReportarValidacionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReportarValidacionResponse)
+	err := c.cc.Invoke(ctx, ClientService_ReportarValidacion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ClientServiceServer is the server API for ClientService service.
 // All implementations must embed UnimplementedClientServiceServer
 // for forward compatibility.
@@ -69,6 +82,8 @@ type ClientServiceServer interface {
 	CrearPedido(context.Context, *CrearPedidoRequest) (*CrearPedidoResponse, error)
 	// Operación de Lectura
 	ConsultarEstado(context.Context, *ConsultarEstadoRequest) (*ConsultarEstadoResponse, error)
+	// Reporte de Validación exitosa
+	ReportarValidacion(context.Context, *ReportarValidacionRequest) (*ReportarValidacionResponse, error)
 	mustEmbedUnimplementedClientServiceServer()
 }
 
@@ -84,6 +99,9 @@ func (UnimplementedClientServiceServer) CrearPedido(context.Context, *CrearPedid
 }
 func (UnimplementedClientServiceServer) ConsultarEstado(context.Context, *ConsultarEstadoRequest) (*ConsultarEstadoResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ConsultarEstado not implemented")
+}
+func (UnimplementedClientServiceServer) ReportarValidacion(context.Context, *ReportarValidacionRequest) (*ReportarValidacionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ReportarValidacion not implemented")
 }
 func (UnimplementedClientServiceServer) mustEmbedUnimplementedClientServiceServer() {}
 func (UnimplementedClientServiceServer) testEmbeddedByValue()                       {}
@@ -142,6 +160,24 @@ func _ClientService_ConsultarEstado_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ClientService_ReportarValidacion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReportarValidacionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientServiceServer).ReportarValidacion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ClientService_ReportarValidacion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientServiceServer).ReportarValidacion(ctx, req.(*ReportarValidacionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ClientService_ServiceDesc is the grpc.ServiceDesc for ClientService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -157,15 +193,20 @@ var ClientService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "ConsultarEstado",
 			Handler:    _ClientService_ConsultarEstado_Handler,
 		},
+		{
+			MethodName: "ReportarValidacion",
+			Handler:    _ClientService_ReportarValidacion_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "proto/distrieats.proto",
 }
 
 const (
-	DatanodeService_UpdateOrder_FullMethodName = "/distrieats.DatanodeService/UpdateOrder"
-	DatanodeService_GetOrder_FullMethodName    = "/distrieats.DatanodeService/GetOrder"
-	DatanodeService_GossipSync_FullMethodName  = "/distrieats.DatanodeService/GossipSync"
+	DatanodeService_UpdateOrder_FullMethodName  = "/distrieats.DatanodeService/UpdateOrder"
+	DatanodeService_GetOrder_FullMethodName     = "/distrieats.DatanodeService/GetOrder"
+	DatanodeService_GossipSync_FullMethodName   = "/distrieats.DatanodeService/GossipSync"
+	DatanodeService_GetAllOrders_FullMethodName = "/distrieats.DatanodeService/GetAllOrders"
 )
 
 // DatanodeServiceClient is the client API for DatanodeService service.
@@ -178,6 +219,8 @@ type DatanodeServiceClient interface {
 	GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error)
 	// Sincronización entre pares (Gossip)
 	GossipSync(ctx context.Context, in *GossipRequest, opts ...grpc.CallOption) (*GossipResponse, error)
+	// Consulta global de pedidos para el reporte final
+	GetAllOrders(ctx context.Context, in *GetAllOrdersRequest, opts ...grpc.CallOption) (*GetAllOrdersResponse, error)
 }
 
 type datanodeServiceClient struct {
@@ -218,6 +261,16 @@ func (c *datanodeServiceClient) GossipSync(ctx context.Context, in *GossipReques
 	return out, nil
 }
 
+func (c *datanodeServiceClient) GetAllOrders(ctx context.Context, in *GetAllOrdersRequest, opts ...grpc.CallOption) (*GetAllOrdersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllOrdersResponse)
+	err := c.cc.Invoke(ctx, DatanodeService_GetAllOrders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DatanodeServiceServer is the server API for DatanodeService service.
 // All implementations must embed UnimplementedDatanodeServiceServer
 // for forward compatibility.
@@ -228,6 +281,8 @@ type DatanodeServiceServer interface {
 	GetOrder(context.Context, *GetOrderRequest) (*GetOrderResponse, error)
 	// Sincronización entre pares (Gossip)
 	GossipSync(context.Context, *GossipRequest) (*GossipResponse, error)
+	// Consulta global de pedidos para el reporte final
+	GetAllOrders(context.Context, *GetAllOrdersRequest) (*GetAllOrdersResponse, error)
 	mustEmbedUnimplementedDatanodeServiceServer()
 }
 
@@ -246,6 +301,9 @@ func (UnimplementedDatanodeServiceServer) GetOrder(context.Context, *GetOrderReq
 }
 func (UnimplementedDatanodeServiceServer) GossipSync(context.Context, *GossipRequest) (*GossipResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GossipSync not implemented")
+}
+func (UnimplementedDatanodeServiceServer) GetAllOrders(context.Context, *GetAllOrdersRequest) (*GetAllOrdersResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllOrders not implemented")
 }
 func (UnimplementedDatanodeServiceServer) mustEmbedUnimplementedDatanodeServiceServer() {}
 func (UnimplementedDatanodeServiceServer) testEmbeddedByValue()                         {}
@@ -322,6 +380,24 @@ func _DatanodeService_GossipSync_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DatanodeService_GetAllOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllOrdersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DatanodeServiceServer).GetAllOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DatanodeService_GetAllOrders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DatanodeServiceServer).GetAllOrders(ctx, req.(*GetAllOrdersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DatanodeService_ServiceDesc is the grpc.ServiceDesc for DatanodeService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -340,6 +416,10 @@ var DatanodeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GossipSync",
 			Handler:    _DatanodeService_GossipSync_Handler,
+		},
+		{
+			MethodName: "GetAllOrders",
+			Handler:    _DatanodeService_GetAllOrders_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

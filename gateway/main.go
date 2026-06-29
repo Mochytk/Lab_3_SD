@@ -136,20 +136,26 @@ func (s *gatewayServer) ConsultarEstado(ctx context.Context, req *pb.ConsultarEs
 		if exists {
 			resp, err := client.GetOrder(ctx, &pb.GetOrderRequest{PedidoId: req.PedidoId})
 			if err != nil {
-				log.Printf("[Gateway] Error consultando al Datanode %s: %v", targetAddr, err)
-				return nil, err
+				log.Printf("[Gateway] Error consultando al Datanode afín %s: %v. Reintentando mediante Broker...", targetAddr, err)
+				// Fallback to broker handled below
+			} else {
+				return &pb.ConsultarEstadoResponse{
+					Encontrado:         resp.Encontrado,
+					Pedido:             resp.Pedido,
+					DatanodeConsultado: targetAddr,
+				}, nil
 			}
-			return &pb.ConsultarEstadoResponse{
-				Encontrado:         resp.Encontrado,
-				Pedido:             resp.Pedido,
-				DatanodeConsultado: targetAddr,
-			}, nil
 		}
 	}
 	
-	// Sin afinidad o Datanode no encontrado, enrutar al broker
-	log.Printf("[Gateway] Sin afinidad para %s, enrutando al Broker", req.ClienteId)
+	// Sin afinidad, Datanode no encontrado, o error de conexión: enrutar al broker
+	log.Printf("[Gateway] Enrutando consulta al Broker para %s", req.ClienteId)
 	return s.brokerClient.ConsultarEstado(ctx, req)
+}
+
+func (s *gatewayServer) ReportarValidacion(ctx context.Context, req *pb.ReportarValidacionRequest) (*pb.ReportarValidacionResponse, error) {
+	log.Printf("[Gateway] Reenviando reporte de validación exitosa de %s", req.ClienteId)
+	return s.brokerClient.ReportarValidacion(ctx, req)
 }
 
 func main() {
