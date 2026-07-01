@@ -1,6 +1,6 @@
 module distrieats
 
-go 1.26.2
+go 1.18
 
 require (
 	google.golang.org/grpc v1.81.1
