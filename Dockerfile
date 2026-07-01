@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.18-alpine AS builder
+FROM golang:1.18 AS builder
 
 WORKDIR /app
 
@@ -17,8 +17,8 @@ RUN go build -o bin/gateway ./gateway
 RUN go build -o bin/datanode ./datanode
 RUN go build -o bin/client ./client
 
-# Imagen final ligera
-FROM alpine:latest
+# Imagen final ligera con soporte DNS completo (Debian)
+FROM debian:bullseye-slim
 WORKDIR /app
 COPY --from=builder /app/bin/* ./
 # Copiar los archivos CSV necesarios para el broker
