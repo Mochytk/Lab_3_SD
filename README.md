@@ -80,7 +80,7 @@ Una vez ejecutado este comando (ya sea en un solo host o en las 4 MVs):
 
 Puedes observar la ejecución de los contenedores y los flujos leyendo los logs en tiempo real:
 ```bash
-docker compose logs -f
+docker-compose logs -f
 ```
 
 ### 3. Fase de Caos y Tolerancia a Fallos (Opcional durante la simulación)
