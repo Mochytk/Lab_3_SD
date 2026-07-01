@@ -1,12 +1,14 @@
 version: '3.8'
 
 services:
-  # VM 1
+  # VM 1 (Ej. dist001)
   broker:
     build: .
     container_name: distrieats-broker
     environment:
       - CSV_FILE=${CSV_FILE:-pedidos.csv}
+    # Si usas las VMs de la USM (ej. dist001 a dist004), cambia datanode1, datanode2 y datanode3 por dist002, dist003, dist004 respectivamente.
+    # Ejemplo: --datanodes=dist002:50051,dist003:50052,dist004:50053
     command: ["sh", "-c", "./broker --port=50050 --datanodes=datanode1:50051,datanode2:50052,datanode3:50053 --csv=$$CSV_FILE"]
     ports:
       - "50050:50050"

@@ -50,9 +50,13 @@ Para desplegar todos los servicios puedes elegir el tamaño de la prueba (es dec
 ### Ejecución Distribuida en 4 Máquinas Virtuales (MV1 - MV4)
 Si vas a correr el laboratorio de manera verdaderamente distribuida a través de 4 máquinas virtuales diferentes (como indica el enunciado original), debes seguir estos pasos:
 
-1. **Configurar las Direcciones IP**:
-   Abre el archivo `docker-compose.yml` y actualiza los comandos de inicio de cada servicio reemplazando los nombres internos (`broker:50050`, `datanode1:50051`, etc.) por las **Direcciones IP reales** de las máquinas virtuales en tu red local.
-   *Ejemplo*: Si el Broker (MV1) está en la IP `192.168.1.10`, en el Gateway de la MV2 debes cambiar `--broker=broker:50050` por `--broker=192.168.1.10:50050`. Haz lo mismo con los `--peers` de los datanodes y los `--datanodes` del broker/gateway.
+1. **Configurar las Direcciones IP (o Hostnames `distXXX`)**:
+   Abre el archivo `docker-compose.yml` y actualiza los comandos de inicio de cada servicio reemplazando los nombres internos de Docker (`broker:50050`, `datanode1:50051`, etc.) por las **Direcciones IP reales** de las máquinas virtuales en tu red local, o bien por los **hostnames de las máquinas virtuales** de la universidad (ej. `dist001`, `dist002`, etc.).
+   
+   *Ejemplo Práctico usando `dist001` a `dist004`:*
+   - Si el Broker (MV1) está en `dist001`, en el servicio del Gateway de la MV2 debes cambiar `--broker=broker:50050` por `--broker=dist001:50050`.
+   - En el comando del Broker, la lista de Datanodes pasaría a ser: `--datanodes=dist002:50051,dist003:50052,dist004:50053`.
+   - Haz lo mismo con la bandera `--peers` de cada Datanode (ej. el Datanode1 apuntaría a `--peers=dist003:50052,dist004:50053`).
 
 2. **Copiar el Código**:
    Asegúrate de clonar/copiar todo este repositorio en las 4 máquinas virtuales, y ejecutar `make build` en cada una de ellas para generar la imagen de Docker.
